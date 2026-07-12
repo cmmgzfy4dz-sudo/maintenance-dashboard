@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#0d0f12;font-family:'Inter',system-ui,sans-serif;color:#e8eaed}
+  a{color:#3ba7ff;text-decoration:none}
+  a:hover{color:#63bcff}
+  .navitem{cursor:pointer}
+  .navitem:hover{background:rgba(255,255,255,.05)}
+</style>
+</helmet>
+<div data-screen-label="Maintenance Dashboard" style="width:1440px;height:900px;display:flex;background:#0d0f12">
+  <!-- sidebar -->
+  <div style="width:220px;flex:none;background:#0a0c0f;border-right:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;padding:20px 14px;gap:4px">
+    <div style="display:flex;align-items:center;gap:9px;padding:6px 8px 20px">
+      <div style="width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#3ba7ff,#1c6fd6);flex:none"></div>
+      <div style="font:700 14px 'Inter';letter-spacing:.2px">MaintainOps</div>
+    </div>
+    <div style="font:600 10px 'Roboto Mono';color:rgba(255,255,255,.35);letter-spacing:.08em;padding:10px 8px 6px">OVERVIEW</div>
+    <div style="padding:9px 10px;border-radius:6px;background:rgba(59,167,255,.12);color:#3ba7ff;font:600 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:#3ba7ff"></div>Dashboard</div>
+    <div class="navitem" style="padding:9px 10px;border-radius:6px;color:rgba(255,255,255,.6);font:500 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Work Orders</div>
+    <div class="navitem" style="padding:9px 10px;border-radius:6px;color:rgba(255,255,255,.6);font:500 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Assets</div>
+    <div class="navitem" style="padding:9px 10px;border-radius:6px;color:rgba(255,255,255,.6);font:500 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Preventive Maint.</div>
+    <div style="font:600 10px 'Roboto Mono';color:rgba(255,255,255,.35);letter-spacing:.08em;padding:16px 8px 6px">ANALYSIS</div>
+    <div class="navitem" style="padding:9px 10px;border-radius:6px;color:rgba(255,255,255,.6);font:500 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Reliability</div>
+    <div class="navitem" style="padding:9px 10px;border-radius:6px;color:rgba(255,255,255,.6);font:500 12.5px 'Inter';display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Cost</div>
+    <div style="margin-top:auto;padding:10px 8px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px">
+      <div style="width:24px;height:24px;border-radius:50%;background:#2a2e37;flex:none"></div>
+      <div style="font:500 11.5px 'Inter';color:rgba(255,255,255,.7)">J. Alvarez<br><span style="color:rgba(255,255,255,.35);font-size:10px">Plant Manager</span></div>
+    </div>
+  </div>
+  <!-- main -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div>
+        <div style="font:700 17px 'Inter'">Maintenance Overview</div>
+        <div style="font:500 12px 'Inter';color:rgba(255,255,255,.4);margin-top:2px">{{ subtitle }}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select value="{{ selectedRC }}" onChange="{{ onRCChange }}" style="padding:7px 12px;border-radius:6px;background:#1c2027;border:1px solid rgba(255,255,255,.08);font:600 12px 'Inter';color:rgba(255,255,255,.85)">
+          <sc-for list="{{ rcOptions }}" as="opt" hint-placeholder-count="3">
+            <option value="{{ opt.value }}">{{ opt.label }}</option>
+          </sc-for>
+        </select>
+        <div style="padding:7px 12px;border-radius:6px;background:#1c2027;border:1px solid rgba(255,255,255,.08);font:600 12px 'Inter';color:rgba(255,255,255,.7)">June 2026 ▾</div>
+      </div>
+    </div>
+    <div style="padding:22px 28px;overflow:auto;flex:1">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px">
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">WORK ORDERS</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px">{{ kpi.wo }}</div>
+          <div style="font:500 11px 'Inter';color:#4ade80;margin-top:5px">{{ kpi.closed }}</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">LABOR HOURS</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px">{{ kpi.hours }}</div>
+          <div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);margin-top:5px">{{ kpi.techs }}</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">PLANNED WORK</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px;color:#4ade80">{{ kpi.planned }}</div>
+          <div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);margin-top:5px">of hours proactive</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">AVG HRS / WO</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px">{{ kpi.avg }} <span style="font-size:13px;color:rgba(255,255,255,.4)">hrs</span></div>
+          <div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);margin-top:5px">labor hrs per WO</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">OPEN BACKLOG</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px">{{ kpi.open }}</div>
+          <div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);margin-top:5px">issued or on hold</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px">
+          <div style="font:600 11px 'Inter';color:rgba(255,255,255,.45);letter-spacing:.03em">PARTS COST</div>
+          <div style="font:700 26px 'Roboto Mono';margin-top:8px">{{ kpi.cost }}</div>
+          <div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);margin-top:5px">June actuals</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.5fr 0.75fr 1fr;gap:14px;margin-top:16px">
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:18px 20px">
+          <div style="font:600 13px 'Inter';color:rgba(255,255,255,.75);margin-bottom:14px">{{ chartTitle }}</div>
+          <svg viewBox="0 0 400 120" style="width:100%;height:140px">
+            <polyline points="{{ linePoints }}" fill="none" stroke="#3ba7ff" stroke-width="2.5"/>
+            <polyline points="{{ areaPoints }}" fill="url(#g1)" stroke="none" opacity="0.35"/>
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3ba7ff"/><stop offset="100%" stop-color="#3ba7ff" stop-opacity="0"/></linearGradient></defs>
+          </svg>
+          <div style="font:500 10.5px 'Inter';color:rgba(255,255,255,.35);margin-top:2px">Weekend dips visible — minimal weekend coverage</div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:18px 20px">
+          <div style="font:600 13px 'Inter';color:rgba(255,255,255,.75);margin-bottom:14px">Proactive vs Reactive Hrs</div>
+          <div style="display:flex;align-items:flex-end;gap:16px;height:110px;padding:0 6px">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:100%;height:{{ proBarPx }};background:#3ba7ff;border-radius:3px 3px 0 0"></div><div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);text-align:center">Proactive<br>{{ proHoursLabel }}</div></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:100%;height:{{ reBarPx }};background:#f59e0b;border-radius:3px 3px 0 0"></div><div style="font:500 11px 'Inter';color:rgba(255,255,255,.4);text-align:center">Reactive<br>{{ reHoursLabel }}</div></div>
+          </div>
+        </div>
+        <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:18px 20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="font:600 13px 'Inter';color:rgba(255,255,255,.75)">Work Order Type Split</div>
+            <div style="font:600 11px 'Roboto Mono';color:rgba(255,255,255,.4)">{{ selectedRC }}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:18px">
+            <div style="width:112px;height:112px;border-radius:50%;flex:none;background:{{ pieGradient }}"></div>
+            <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+              <sc-for list="{{ legend }}" as="item" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:7px;font:500 11px 'Inter';color:rgba(255,255,255,.65)">
+                  <div style="width:8px;height:8px;border-radius:2px;background:{{ item.color }};flex:none"></div>
+                  <div style="flex:1">{{ item.label }}</div>
+                  <div style="font-family:'Roboto Mono';color:rgba(255,255,255,.45)">{{ item.pct }}%</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font:500 10.5px 'Inter';color:rgba(255,255,255,.35);margin-top:10px">{{ totalLabel }}</div>
+        </div>
+      </div>
+
+      <div style="background:#181c22;border:1px solid rgba(255,255,255,.06);border-radius:8px;margin-top:16px;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="font:600 13px 'Inter';color:rgba(255,255,255,.75)">Most Reactive Downtime by Asset — Top {{ assetRows.length }}</div>
+          <div style="font:600 11px 'Roboto Mono';color:rgba(255,255,255,.4)">{{ selectedRC }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:50px 1.4fr 110px 110px 110px 110px;padding:10px 20px;font:600 11px 'Inter';color:rgba(255,255,255,.35);letter-spacing:.03em;position:sticky;top:0;background:#181c22;z-index:1">
+          <div>#</div><div>ASSET</div><div>REPAIR CTR</div><div class="navitem" onClick="{{ onSortHours }}" style="{{ hoursHeadStyle }}">{{ hoursHead }}</div><div class="navitem" onClick="{{ onSortWo }}" style="{{ woHeadStyle }}">{{ woHead }}</div><div class="navitem" onClick="{{ onSortCost }}" style="{{ costHeadStyle }}">{{ costHead }}</div>
+        </div>
+        <div style="max-height:480px;overflow-y:auto">
+          <sc-for list="{{ assetRows }}" as="row" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:50px 1.4fr 110px 110px 110px 110px;padding:10px 20px;font:500 13px 'Inter';border-top:1px solid rgba(255,255,255,.05);align-items:center">
+              <div style="color:rgba(255,255,255,.35);font-family:'Roboto Mono';font-size:11px">{{ row.rank }}</div><div>{{ row.asset }}</div><div style="font-family:'Roboto Mono';color:rgba(255,255,255,.5)">{{ row.rc }}</div><div style="font-family:'Roboto Mono'">{{ row.hoursLabel }}</div><div style="color:rgba(255,255,255,.6)">{{ row.wo }}</div><div style="font-family:'Roboto Mono';color:rgba(255,255,255,.5)">{{ row.costLabel }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ASSET_DOWNTIME = [["BHAM-OSR T-1","BH",24.2,19,0],["BR-FACILITIES","BR",14.4,4,0],["BR-AUTOMATION","BR",13.5,15,0],["BHAM-AFRAME-1","BH",12.8,15,0],["RU-LIDDER","RU",12.5,7,213],["UK AAH WARRINGTON","WT",12.2,1,0],["BHAM-LLM-2","BH",12.1,4,0],["BHAM-OSR T-3","BH",11.5,17,0],["BHAM-OSR T-6","BH",11.5,17,0],["BHAM-LLM-1","BH",11.4,3,0],["BHAM-AAV-GENERAL","BH",10.9,4,0],["BR-CONTRACTOR","BR",10.4,9,0],["SWAN-TEMP CONTROL","SW",10.1,4,0],["RF-AFRAME","RF",9.8,18,13],["BHAM-OSR T-4","BH",9.6,16,0],["BHAM-OSR T-5","BH",9.2,17,0],["SWAN-LABELER","SW",8,3,0],["RU-MEZ M SECT","RU",7.4,1,1682],["GL-AUTOMATION","GL",7.3,4,0],["BHAM-PS-1","BH",7.1,1,0],["WT-DESTACKER 01","WT",7.1,17,0],["BHAM-RC-ST-M427","BH",6.8,1,0],["GL-PRINTERS","GL",6.7,15,0],["BHAM-OSR T-2","BH",6.6,14,0],["BHAM-STRAP-2","BH",6.5,4,0],["GL-AF01","GL",6.5,11,0],["BHAM-AFRAME-2","BH",6.4,14,0],["RF-WAREHOUSE","RF",6.2,2,0],["RU-MEZ PICK LANE K SECT","RU",6.1,1,1262],["BF-ABBA02-02","BF",6,5,0],["WT-LIDDER 02","WT",6,9,0],["BHAM-AAV-1","BH",5.9,7,0],["BF-ABBA02-01","BF",5.9,5,0],["BHAM-OSR-GENERAL","BH",5.5,4,0],["BR-AFRAME-SDA1","BR",5.4,10,0],["BR-DESTACKER","BR",5.4,2,0],["RF-PR","RF",5.3,11,0],["BR-AFRAME-SDA3","BR",5,5,0],["RF-AU-PRINTERS","RF",4.9,7,0],["RF-COLD STORE","RF",4.9,1,0],["BHAM-AF2--DUMP STATION","BH",4.8,7,0],["BF-ABBA01-02","BF",4.8,2,0],["WT-STRAPPER 01","WT",4.8,6,0],["BHAM-CON-OSR DOWNSTAIRS GREY TRAY","BH",4.7,3,0],["TW-PR/PH-COP","TW",4.7,13,0],["BHAM-ENG-GENERAL","BH",4.6,2,0],["BHAM-RC-ST-M474","BH",4.2,1,0],["BR-LIDDER 02","BR",4.2,4,24],["BR-PRINTERS","BR",4.1,4,0],["LD-AFRAME","LD",4.1,9,0],["BF-OSR-LIFT 02","BF",4,4,0],["BF-OPERATIONS","BF",4,2,0],["WT-LIDDER 01","WT",4,5,0],["WT-PR-41","WT",3.9,5,0],["BR-AUT ITEQ","BR",3.9,4,0],["BHAM-L1 C1","BH",3.8,1,0],["RF-CONVEYORS","RF",3.8,3,0],["GL-TOTE FEED-LG-S04","GL",3.7,3,45],["TW-ITEQ","TW",3.7,7,0],["BHAM-DESP-L-5","BH",3.6,5,0]];
+
+const RC_STATS = {"ALL":{"wo":3775,"hours":3754,"proHours":3025.8,"reHours":728.2,"plannedPct":80.6,"avgHrs":1,"cost":9015,"open":142,"series":[148,158.2,161.1,166.9,144.1,28.7,29.3,160.6,173.6,172.4,178.4,160.2,8,27.4,155.8,161.7,161.6,149.8,154.7,23.6,30.3,156.9,152.8,174.1,159.9,117.4,15.2,31.7,145.9,145],"typeCounts":{"PMCO":583,"PM":1896,"U/B":710,"OSRE":237,"OP":525,"TECH":143,"FU":76,"MO":24,"FM":125,"CM":214,"INS":20,"CC":141,"ITRE":65,"PC":56,"SR":23,"ITPR":15,"SA":46},"closedPct":97.1,"techs":43},"BH":{"wo":434,"hours":383.7,"proHours":144.6,"reHours":239.1,"plannedPct":37.7,"avgHrs":0.9,"cost":0,"open":68,"series":[9.4,18.8,12.7,14.4,13.9,19.8,16.6,11.9,14.5,14.2,4.4,20.3,23.8,16.3,20.8,13.8,3.6,3.5,16.1,17.5,14.3,22.6,4.4,24.4,21.6],"typeCounts":{"PMCO":74,"PM":77,"U/B":166,"OSRE":211,"OP":13,"TECH":35,"FU":39,"MO":2},"closedPct":89,"techs":7},"BF":{"wo":412,"hours":419.4,"proHours":375.3,"reHours":44.2,"plannedPct":89.5,"avgHrs":1,"cost":8,"open":1,"series":[22,19.4,21.1,21.6,15.7,8.7,21.8,13.6,22.2,21.5,15.9,17.7,18.9,15.1,18.8,13.1,19.8,19.2,18,18.9,14.5,22.3,19.7],"typeCounts":{"PM":226,"U/B":43,"OSRE":26,"FM":62,"CM":14,"PMCO":19,"OP":58,"MO":3,"INS":3,"TECH":3,"CC":25,"SA":1},"closedPct":99.8,"techs":3},"WT":{"wo":791,"hours":859.6,"proHours":743.5,"reHours":116.1,"plannedPct":86.5,"avgHrs":1.1,"cost":1715,"open":40,"series":[27.1,25.6,24.8,27.4,25.4,11.1,12.1,33,42.6,37.9,44.7,40.2,1.1,12,26.4,28.1,38.2,27.7,38.3,17.7,10.5,33.5,25.8,50.3,37.5,24.3,14.8,13.7,33.7,35.5],"typeCounts":{"CC":49,"U/B":156,"OP":97,"CM":40,"PM":534,"PMCO":38,"INS":6,"ITRE":22,"PC":28,"FU":10,"SR":4,"FM":27,"ITPR":9,"SA":11,"MO":8,"TECH":5},"closedPct":96.2,"techs":8},"RU":{"wo":318,"hours":388.1,"proHours":321.7,"reHours":66.4,"plannedPct":82.9,"avgHrs":1.2,"cost":4287,"open":1,"series":[17.1,16,23.9,20.6,19.2,2.8,4.5,16.4,25.1,19.7,21.3,17.6,2.5,4.6,12.9,21.5,19.8,13.1,13.9,3.9,11.8,13.1,13.8,10.3,10.5,2.7,9.5,13],"typeCounts":{"PMCO":101,"PM":135,"FM":9,"OP":55,"TECH":9,"U/B":59,"SR":16,"ITRE":2,"CM":16,"CC":3,"FU":17,"MO":1,"ITPR":1,"INS":1,"SA":1},"closedPct":99.8,"techs":5},"BR":{"wo":494,"hours":471.4,"proHours":379.9,"reHours":91.5,"plannedPct":80.6,"avgHrs":1,"cost":1118,"open":2,"series":[15.9,18,19.1,21.9,12.9,2.4,3.2,27.1,26.4,27.5,29,24,3.2,21.6,15.8,18.6,19.7,28.3,4.9,18.2,21.7,20.5,19.1,17.5,4.7,14.2,12],"typeCounts":{"PM":361,"PC":25,"OP":81,"TECH":28,"PMCO":47,"CM":19,"U/B":95,"CC":15,"FU":9,"FM":8,"MO":5,"ITRE":3,"INS":5,"ITPR":1},"closedPct":99.7,"techs":5},"SW":{"wo":182,"hours":229.3,"proHours":199.8,"reHours":29.5,"plannedPct":87.1,"avgHrs":1.3,"cost":461,"open":0,"series":[11.8,14.3,12.4,11.6,6.9,3.7,6.4,7.5,6.4,6.2,6.3,6.3,6.1,6.6,7.8,6.7,2.3,12.9,12.9,14.9,11.7,12.7,6.8,6.4],"typeCounts":{"PMCO":66,"PM":90,"FU":1,"OP":28,"U/B":14,"MO":5,"INS":5,"PC":3,"CC":5,"FM":5,"TECH":4,"CM":2,"ITRE":5},"closedPct":100,"techs":3},"RF":{"wo":330,"hours":245.8,"proHours":183.4,"reHours":62.4,"plannedPct":74.6,"avgHrs":0.7,"cost":1202,"open":1,"series":[9.2,8.5,10,9.1,12,4.2,7.9,11.5,12.3,11.9,15,4.1,10.1,9.8,12,11.3,7.6,4.4,8.8,9.1,8.1,6.7,6.1,0.5,6.9,10.3,12.8],"typeCounts":{"U/B":87,"OP":67,"TECH":33,"PMCO":19,"PM":250,"CC":3,"CM":4},"closedPct":99.8,"techs":3},"LD":{"wo":178,"hours":135.5,"proHours":122.9,"reHours":12.6,"plannedPct":90.7,"avgHrs":0.8,"cost":0,"open":2,"series":[8.2,7.1,7,9.9,9.2,1.5,0.9,6.7,7.2,1.2,10.3,9.2,4.4,1.5,2,11.9,8.5,4.6,9,1.9,2.8,1.3],"typeCounts":{"OP":56,"TECH":14,"PM":84,"U/B":9,"PMCO":15},"closedPct":98.9,"techs":5},"GL":{"wo":361,"hours":342.1,"proHours":287.8,"reHours":54.3,"plannedPct":84.1,"avgHrs":0.9,"cost":222,"open":0,"series":[13.4,16.5,15.9,16.4,14.7,3.8,13.3,9.6,13.6,14.1,13.2,3.7,16.1,14.6,17,15.2,17.2,3.1,17,18,15.8,10.3,11.5,3.7,15,15.7],"typeCounts":{"PM":97,"SA":6,"U/B":81,"PMCO":108,"CC":7,"FM":14,"OP":70,"TECH":12,"CM":2},"closedPct":100,"techs":3},"TW":{"wo":275,"hours":279.1,"proHours":266.9,"reHours":12.1,"plannedPct":95.7,"avgHrs":1,"cost":0,"open":27,"series":[14,14.1,14.2,14.1,14.2,13.9,13.9,13.7,13.9,13.9,14,13.9,13.7,13.9,13.9,7,7,13.9,13.7,14.2,7,7],"typeCounts":{"CM":117,"SA":27,"PM":42,"PMCO":96,"CC":34,"ITPR":4,"ITRE":33,"SR":3},"closedPct":92.4,"techs":2}};
+
+const CATEGORY_MAP = {
+  PM: "Preventive", PMCO: "Preventive (Compliance)", "U/B": "Unplanned Breakdown",
+  OSRE: "Preventive", OP: "Operational", CM: "Corrective", TECH: "Other",
+  FU: "Other", MO: "Other", FM: "Other", INS: "Other", CC: "Other",
+  ITRE: "Other", PC: "Other", SR: "Other", ITPR: "Other", SA: "Other"
+};
+
+const CATEGORY_COLOR = {
+  "Preventive": "#3ba7ff",
+  "Preventive (Compliance)": "#8b5cf6",
+  "Unplanned Breakdown": "#f87171",
+  "Operational": "#f59e0b",
+  "Corrective": "#34d399",
+  "Other": "#6b7280"
+};
+
+const CATEGORY_ORDER = ["Preventive", "Preventive (Compliance)", "Unplanned Breakdown", "Operational", "Corrective", "Other"];
+
+class Component extends DCLogic {
+  state = { rc: "ALL", sortBy: "hours" };
+
+  renderVals() {
+    const round = (x, d = 1) => Math.round(x * 10 ** d) / 10 ** d;
+    const rc = this.state.rc;
+    const s = RC_STATS[rc] || RC_STATS.ALL;
+
+    // KPI cards
+    const kpi = {
+      wo: s.wo.toLocaleString(),
+      closed: `${s.closedPct}% closed`,
+      hours: Math.round(s.hours).toLocaleString(),
+      techs: `across ${s.techs} techs`,
+      planned: `${s.plannedPct}%`,
+      avg: s.avgHrs,
+      open: s.open,
+      cost: `\u00a3${s.cost.toLocaleString()}`
+    };
+
+    // Daily labour line chart
+    const series = s.series;
+    const nS = series.length;
+    const maxS = Math.max(...series, 1);
+    const linePoints = series.map((v, i) => {
+      const x = nS > 1 ? round((i / (nS - 1)) * 400) : 0;
+      const y = round(120 - (v / maxS) * 110);
+      return `${x},${y}`;
+    }).join(" ");
+    const areaPoints = linePoints + " 400,120 0,120";
+
+    // Proactive vs reactive bars
+    const proH = s.proHours, reH = s.reHours;
+    const maxH = Math.max(proH, reH, 1);
+    const proBarPx = `${Math.round(proH / maxH * 88)}px`;
+    const reBarPx = `${Math.round(reH / maxH * 88)}px`;
+    const proHoursLabel = `${Math.round(proH).toLocaleString()}h`;
+    const reHoursLabel = `${Math.round(reH).toLocaleString()}h`;
+
+    // Work order type split pie (from this RC's type counts)
+    const catCounts = {};
+    let total = 0;
+    for (const [type, count] of Object.entries(s.typeCounts)) {
+      const cat = CATEGORY_MAP[type] || "Other";
+      catCounts[cat] = (catCounts[cat] || 0) + count;
+      total += count;
+    }
+    const legend = CATEGORY_ORDER
+      .filter(cat => catCounts[cat] > 0)
+      .map(cat => ({
+        label: cat,
+        color: CATEGORY_COLOR[cat],
+        pct: total ? round(catCounts[cat] / total * 100, 1) : 0
+      }));
+    let acc = 0;
+    const stops = legend.map(item => {
+      const start = acc;
+      acc += item.pct;
+      return `${item.color} ${start}% ${acc}%`;
+    });
+    const pieGradient = `conic-gradient(${stops.join(", ")})`;
+
+    // Asset table
+    const sortBy = this.state.sortBy;
+    const sortIdx = { hours: 2, wo: 3, cost: 4 }[sortBy];
+    const filteredAssets = (rc === "ALL" ? ASSET_DOWNTIME : ASSET_DOWNTIME.filter(r => r[1] === rc))
+      .slice()
+      .sort((a, b) => b[sortIdx] - a[sortIdx]);
+    const assetRows = filteredAssets.map((r, i) => ({
+      rank: i + 1,
+      asset: r[0],
+      rc: r[1],
+      hoursLabel: `${r[2]}h`,
+      wo: r[3],
+      costLabel: r[4] ? `\u00a3${r[4].toLocaleString()}` : "\u00a30"
+    }));
+
+    const sortArrow = (key) => sortBy === key ? " \u2193" : "";
+    const sortStyle = (key) => "cursor:pointer;" + (sortBy === key ? "color:#3ba7ff" : "");
+    const setSort = (key) => this.setState({ sortBy: key });
+
+    const rcOptions = [
+      { value: "ALL", label: "All Repair Centers" },
+      ...Object.keys(RC_STATS).filter(k => k !== "ALL").sort().map(k => ({ value: k, label: k }))
+    ];
+    const rcLabel = rc === "ALL" ? "All Repair Centers" : rc;
+
+    return {
+      kpi,
+      rcOptions,
+      selectedRC: rc,
+      onRCChange: (e) => this.setState({ rc: e.target.value }),
+      subtitle: `${rcLabel} \u00b7 ${s.techs} technicians \u00b7 Reactive + proactive labor report import`,
+      chartTitle: `Daily Labor Hours \u2014 June 2026`,
+      linePoints,
+      areaPoints,
+      proBarPx,
+      reBarPx,
+      proHoursLabel,
+      reHoursLabel,
+      pieGradient,
+      legend,
+      totalLabel: `${total.toLocaleString()} work orders \u00b7 ${rcLabel}`,
+      assetRows,
+      hoursHead: `HOURS${sortArrow("hours")}`,
+      woHead: `WORK ORDERS${sortArrow("wo")}`,
+      costHead: `PARTS COST${sortArrow("cost")}`,
+      hoursHeadStyle: sortStyle("hours"),
+      woHeadStyle: sortStyle("wo"),
+      costHeadStyle: sortStyle("cost"),
+      onSortHours: () => setSort("hours"),
+      onSortWo: () => setSort("wo"),
+      onSortCost: () => setSort("cost")
+    };
+  }
+}
+</script>
+</body>
+</html>
