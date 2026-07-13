@@ -20,9 +20,9 @@
 
     <div class="nav-section-label">Overview</div>
     <nav class="nav-group">
-      <div class="nav-item nav-item--active"><span class="nav-dot nav-dot--active"></span>Dashboard</div>
+      <div class="nav-item" data-page="dashboard"><span class="nav-dot"></span>Dashboard</div>
       <div class="nav-item"><span class="nav-dot"></span>Work Orders</div>
-      <div class="nav-item"><span class="nav-dot"></span>Assets</div>
+      <div class="nav-item" data-page="worst"><span class="nav-dot"></span>Worst Asset</div>
       <div class="nav-item"><span class="nav-dot"></span>Preventive Maint.</div>
     </nav>
 
@@ -42,81 +42,139 @@
   </aside>
 
   <main class="main">
-    <header class="topbar">
-      <div>
-        <div class="page-title">Maintenance Overview</div>
-        <div class="page-subtitle" id="subtitle"></div>
-      </div>
-      <div class="topbar-controls">
-        <select id="rc-select" class="rc-select"></select>
-        <div class="period-badge">June 2026 ▾</div>
-      </div>
-    </header>
-
-    <div class="content">
-      <section class="kpi-grid" id="kpi-grid"></section>
-
-      <section class="charts-grid">
-        <div class="panel">
-          <div class="panel-title" id="chart-title"></div>
-          <svg viewBox="0 0 400 120" class="line-chart" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#3ba7ff"/>
-                <stop offset="100%" stop-color="#3ba7ff" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <polyline id="area-poly" fill="url(#areaGradient)" stroke="none" opacity="0.35"/>
-            <polyline id="line-poly" fill="none" stroke="#3ba7ff" stroke-width="2.5"/>
-          </svg>
-          <div class="chart-caption">Weekend dips visible — minimal weekend coverage</div>
+    <section class="page" id="page-dashboard">
+      <header class="topbar">
+        <div>
+          <div class="page-title">Maintenance Overview</div>
+          <div class="page-subtitle" id="subtitle"></div>
         </div>
+        <div class="topbar-controls">
+          <select id="rc-select" class="rc-select"></select>
+          <div class="period-badge">June 2026 ▾</div>
+        </div>
+      </header>
 
-        <div class="panel">
-          <div class="panel-title">Proactive vs Reactive Hrs</div>
-          <div class="bar-chart">
-            <div class="bar-col">
-              <div class="bar bar--pro" id="bar-pro"></div>
-              <div class="bar-label">Proactive<br><span id="bar-pro-label"></span></div>
+      <div class="content">
+        <section class="kpi-grid" id="kpi-grid"></section>
+
+        <section class="charts-grid">
+          <div class="panel">
+            <div class="panel-title" id="chart-title"></div>
+            <svg viewBox="0 0 400 120" class="line-chart" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3ba7ff"/>
+                  <stop offset="100%" stop-color="#3ba7ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <polyline id="area-poly" fill="url(#areaGradient)" stroke="none" opacity="0.35"/>
+              <polyline id="line-poly" fill="none" stroke="#3ba7ff" stroke-width="2.5"/>
+            </svg>
+            <div class="chart-caption">Weekend dips visible — minimal weekend coverage</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Proactive vs Reactive Hrs</div>
+            <div class="bar-chart">
+              <div class="bar-col">
+                <div class="bar bar--pro" id="bar-pro"></div>
+                <div class="bar-label">Proactive<br><span id="bar-pro-label"></span></div>
+              </div>
+              <div class="bar-col">
+                <div class="bar bar--re" id="bar-re"></div>
+                <div class="bar-label">Reactive<br><span id="bar-re-label"></span></div>
+              </div>
             </div>
-            <div class="bar-col">
-              <div class="bar bar--re" id="bar-re"></div>
-              <div class="bar-label">Reactive<br><span id="bar-re-label"></span></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Work Order Type Split</div>
+              <div class="panel-tag" id="pie-rc-label"></div>
+            </div>
+            <div class="pie-row">
+              <div class="pie" id="pie"></div>
+              <div class="legend" id="legend"></div>
+            </div>
+            <div class="chart-caption" id="total-label"></div>
+          </div>
+        </section>
+
+        <section class="table-panel">
+          <div class="table-head">
+            <div class="panel-title" id="table-title"></div>
+            <div class="panel-tag" id="table-rc-label"></div>
+          </div>
+          <div class="table-scroll">
+            <div class="table-columns">
+              <div>#</div>
+              <div>ASSET</div>
+              <div>REPAIR CTR</div>
+              <div class="sortable" data-sort="hours" id="head-hours">HOURS</div>
+              <div class="sortable" data-sort="wo" id="head-wo">WORK ORDERS</div>
+              <div class="sortable" data-sort="cost" id="head-cost">PARTS COST</div>
+            </div>
+            <div class="table-body" id="table-body"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="page-worst" hidden>
+      <header class="topbar">
+        <div>
+          <div class="page-title">Worst Asset</div>
+          <div class="page-subtitle" id="worst-subtitle"></div>
+        </div>
+        <div class="topbar-controls">
+          <select id="worst-rc-select" class="rc-select"></select>
+          <div class="period-badge">Q2 2026 (Apr–Jun) ▾</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="kpi-grid kpi-grid--4" id="worst-kpi-grid"></section>
+
+        <section class="worst-charts-grid">
+          <div class="panel">
+            <div class="panel-title">Top 12 Assets by Reactive Cost</div>
+            <div class="hbar-list" id="worst-bars"></div>
+          </div>
+
+          <div class="worst-side">
+            <div class="panel">
+              <div class="panel-title">Failure Type Split</div>
+              <div class="pie-row">
+                <div class="pie pie--sm" id="type-pie"></div>
+                <div class="legend" id="type-legend"></div>
+              </div>
+            </div>
+            <div class="panel panel--grow">
+              <div class="panel-title">Cost by Repair Center</div>
+              <div class="rc-bar-list" id="rc-bars"></div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Work Order Type Split</div>
-            <div class="panel-tag" id="pie-rc-label"></div>
+        <section class="table-panel">
+          <div class="table-head">
+            <div class="panel-title" id="worst-table-title"></div>
+            <div class="panel-tag">Apr–Jun 2026</div>
           </div>
-          <div class="pie-row">
-            <div class="pie" id="pie"></div>
-            <div class="legend" id="legend"></div>
+          <div class="table-scroll">
+            <div class="table-columns table-columns--worst">
+              <div>#</div>
+              <div>ASSET</div>
+              <div>REPAIR CTR</div>
+              <div>DOMINANT TYPE</div>
+              <div class="sortable" data-wsort="wo" id="whead-wo">WORK ORDERS</div>
+              <div class="sortable" data-wsort="cost" id="whead-cost">TOTAL COST</div>
+            </div>
+            <div class="table-body" id="worst-table-body"></div>
           </div>
-          <div class="chart-caption" id="total-label"></div>
-        </div>
-      </section>
-
-      <section class="table-panel">
-        <div class="table-head">
-          <div class="panel-title" id="table-title"></div>
-          <div class="panel-tag" id="table-rc-label"></div>
-        </div>
-        <div class="table-scroll">
-          <div class="table-columns">
-            <div>#</div>
-            <div>ASSET</div>
-            <div>REPAIR CTR</div>
-            <div class="sortable" data-sort="hours" id="head-hours">HOURS</div>
-            <div class="sortable" data-sort="wo" id="head-wo">WORK ORDERS</div>
-            <div class="sortable" data-sort="cost" id="head-cost">PARTS COST</div>
-          </div>
-          <div class="table-body" id="table-body"></div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </section>
   </main>
 
 </div>

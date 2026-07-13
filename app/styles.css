@@ -132,6 +132,15 @@ a:hover { color: #63bcff; }
   min-width: 0;
 }
 
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.page[hidden] { display: none; }
+
 .topbar {
   display: flex;
   align-items: center;
@@ -195,6 +204,12 @@ a:hover { color: #63bcff; }
 }
 @media (max-width: 640px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.kpi-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1100px) {
+  .kpi-grid--4 { grid-template-columns: repeat(2, 1fr); }
 }
 
 .kpi-card {
@@ -439,4 +454,113 @@ a:hover { color: #63bcff; }
 .cell-cost {
   font-family: 'Roboto Mono';
   color: rgba(255,255,255,.5);
+}
+
+.cell-type {
+  font: 600 11px 'Roboto Mono';
+  color: rgba(255,255,255,.55);
+}
+
+/* ---------- Worst Asset page ---------- */
+
+.worst-charts-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1100px) {
+  .worst-charts-grid { grid-template-columns: 1fr; }
+}
+
+.worst-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel--grow { flex: 1; }
+
+.pie--sm { width: 104px; height: 104px; }
+
+.hbar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hbar-row {
+  display: grid;
+  grid-template-columns: 190px 1fr 76px;
+  align-items: center;
+  gap: 10px;
+}
+
+.hbar-name {
+  font: 500 11.5px 'Inter';
+  color: rgba(255,255,255,.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hbar-track {
+  height: 14px;
+  background: rgba(255,255,255,.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  background: linear-gradient(90deg,#f87171,#f59e0b);
+  border-radius: 3px;
+}
+
+.hbar-cost {
+  font: 600 11.5px 'Roboto Mono';
+  color: rgba(255,255,255,.6);
+  text-align: right;
+}
+
+.rc-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.rc-bar-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 66px;
+  align-items: center;
+  gap: 10px;
+}
+
+.rc-bar-code {
+  font: 600 11px 'Roboto Mono';
+  color: rgba(255,255,255,.5);
+}
+
+.rc-bar-track {
+  height: 12px;
+  background: rgba(255,255,255,.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rc-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.rc-bar-cost {
+  font: 600 11px 'Roboto Mono';
+  color: rgba(255,255,255,.6);
+  text-align: right;
+}
+
+.table-columns--worst, .table-row--worst {
+  grid-template-columns: 50px minmax(140px, 1.4fr) 90px 130px 120px 120px;
+  min-width: 660px;
 }
