@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maintenance Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-name">MaintainOps</div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <nav class="nav-group">
+      <div class="nav-item nav-item--active"><span class="nav-dot nav-dot--active"></span>Dashboard</div>
+      <div class="nav-item"><span class="nav-dot"></span>Work Orders</div>
+      <div class="nav-item"><span class="nav-dot"></span>Assets</div>
+      <div class="nav-item"><span class="nav-dot"></span>Preventive Maint.</div>
+    </nav>
+
+    <div class="nav-section-label">Analysis</div>
+    <nav class="nav-group">
+      <div class="nav-item"><span class="nav-dot"></span>Reliability</div>
+      <div class="nav-item"><span class="nav-dot"></span>Cost</div>
+    </nav>
+
+    <div class="user-card">
+      <div class="avatar"></div>
+      <div class="user-meta">
+        J. Alvarez<br>
+        <span class="user-role">Plant Manager</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-title">Maintenance Overview</div>
+        <div class="page-subtitle" id="subtitle"></div>
+      </div>
+      <div class="topbar-controls">
+        <select id="rc-select" class="rc-select"></select>
+        <div class="period-badge">June 2026 ▾</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="kpi-grid" id="kpi-grid"></section>
+
+      <section class="charts-grid">
+        <div class="panel">
+          <div class="panel-title" id="chart-title"></div>
+          <svg viewBox="0 0 400 120" class="line-chart" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3ba7ff"/>
+                <stop offset="100%" stop-color="#3ba7ff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polyline id="area-poly" fill="url(#areaGradient)" stroke="none" opacity="0.35"/>
+            <polyline id="line-poly" fill="none" stroke="#3ba7ff" stroke-width="2.5"/>
+          </svg>
+          <div class="chart-caption">Weekend dips visible — minimal weekend coverage</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Proactive vs Reactive Hrs</div>
+          <div class="bar-chart">
+            <div class="bar-col">
+              <div class="bar bar--pro" id="bar-pro"></div>
+              <div class="bar-label">Proactive<br><span id="bar-pro-label"></span></div>
+            </div>
+            <div class="bar-col">
+              <div class="bar bar--re" id="bar-re"></div>
+              <div class="bar-label">Reactive<br><span id="bar-re-label"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Work Order Type Split</div>
+            <div class="panel-tag" id="pie-rc-label"></div>
+          </div>
+          <div class="pie-row">
+            <div class="pie" id="pie"></div>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="chart-caption" id="total-label"></div>
+        </div>
+      </section>
+
+      <section class="table-panel">
+        <div class="table-head">
+          <div class="panel-title" id="table-title"></div>
+          <div class="panel-tag" id="table-rc-label"></div>
+        </div>
+        <div class="table-scroll">
+          <div class="table-columns">
+            <div>#</div>
+            <div>ASSET</div>
+            <div>REPAIR CTR</div>
+            <div class="sortable" data-sort="hours" id="head-hours">HOURS</div>
+            <div class="sortable" data-sort="wo" id="head-wo">WORK ORDERS</div>
+            <div class="sortable" data-sort="cost" id="head-cost">PARTS COST</div>
+          </div>
+          <div class="table-body" id="table-body"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
